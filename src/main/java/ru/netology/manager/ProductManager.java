@@ -17,7 +17,8 @@ public class ProductManager {
         repository.save(item);
     }
 
-    public boolean matches(int product, String search) {
+
+    public boolean matches(Product product, String search) {
         if (product instanceof Book) {
             Book book = (Book) product;
             if (book.getName().equalsIgnoreCase(search)) {
@@ -26,9 +27,7 @@ public class ProductManager {
             if (book.getAuthor().equalsIgnoreCase(search)) {
                 return true;
             }
-            return false;
         }
-
         if (product instanceof Smartphone) {
             Smartphone smartphone = (Smartphone) product;
             if (smartphone.getName().equalsIgnoreCase(search)) {
@@ -37,17 +36,19 @@ public class ProductManager {
             if (smartphone.getManufacturer().equalsIgnoreCase(search)) {
                 return true;
             }
-            return false;
         }
+        return false;
     }
+
 
     // возвращает массив найденных товаров
     public Product[] searchBy(String text) {
         Product[] resultFind = new Product[0];
         for (Product product : repository.findAll()) {
             if (matches(product, text)) {
-                Product[] array = new Product[1];
-                System.arraycopy(resultFind, 0, array, 0, 1);
+                Product[] array = new Product[resultFind.length + 1];
+                System.arraycopy(resultFind, 0, array, 0, resultFind.length);
+                array[array.length - 1] = product;
                 resultFind = array;
             }
         }
