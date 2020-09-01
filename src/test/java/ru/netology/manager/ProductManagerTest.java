@@ -40,64 +40,48 @@ public class ProductManagerTest {
 
     @Test
     public void shouldFindBookName() {
-        repository.findAll();
-
         boolean isMatch = manager.matches(new Book(4, "book4", 100, "Ivanov"),"book4");
         assertTrue(isMatch);
     }
 
     @Test
     public void shouldNotFindBookName() {
-        repository.findAll();
-
         boolean isMatch = manager.matches(new Book(4, "book4", 100, "Ivanov"),"book5");
         assertFalse(isMatch);
     }
 
     @Test
     public void shouldFindBookAuthor() {
-        repository.findAll();
-
         boolean isMatch = manager.matches(new Book(4, "book4", 100, "Ivanov"),"Ivanov");
         assertTrue(isMatch);
     }
 
     @Test
     public void shouldNotFindBookAuthor() {
-        repository.findAll();
-
         boolean isMatch = manager.matches(new Book(4, "book4", 100, "Ivanov"),"Petrov");
         assertFalse(isMatch);
     }
 
     @Test
     public void shouldFindSmartphoneName() {
-        repository.findAll();
-
         boolean isMatch = manager.matches(new Smartphone(2, "LG", 1000, "LG Electronics Inc"), "LG");
         assertTrue(isMatch);
     }
 
     @Test
     public void shouldNotFindSmartphoneName() {
-        repository.findAll();
-
         boolean isMatch = manager.matches(new Smartphone(2, "LG", 1000, "LG Electronics Inc"), "Fly");
         assertFalse(isMatch);
     }
 
     @Test
     public void shouldFindSmartphoneManufacturer() {
-        repository.findAll();
-
         boolean isMatch = manager.matches(new Smartphone(2, "LG", 1000, "LG Electronics Inc"), "LG Electronics Inc");
         assertTrue(isMatch);
     }
 
     @Test
     public void shouldNotFindSmartphoneManufacturer() {
-        repository.findAll();
-
         boolean isMatch = manager.matches(new Smartphone(2, "LG", 1000, "LG Electronics Inc"), "LG Inc");
         assertFalse(isMatch);
     }

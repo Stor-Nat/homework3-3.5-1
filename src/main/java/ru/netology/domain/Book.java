@@ -42,4 +42,15 @@ public class Book extends Product {
     return "Book{" + "name='" +
         "author='" + author + '}';
   }
+
+  public boolean matches(Product product, String search) {
+    if (super.matches(product, search)) {
+      return false;
+    }
+    if (getAuthor().equalsIgnoreCase(search)) {
+      return true;
+    }
+    return (matches(product, search)) == product.name || (matches(product, search)) == product.author;
+  }
+
 }

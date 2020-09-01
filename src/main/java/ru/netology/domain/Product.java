@@ -63,4 +63,36 @@ public class Product {
                 ", price=" + price +
                 '}';
     }
+
+    public boolean matches(Product product, String search) {
+        if (product instanceof Book) {
+            Book book = (Book) product;
+            if (book.getName().equalsIgnoreCase(search)) {
+                return true;
+            }
+        }
+        if (product instanceof Smartphone) {
+            Smartphone smartphone = (Smartphone) product;
+            if (smartphone.getName().equalsIgnoreCase(search)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+//    // возвращает массив найденных товаров
+//    public Product[] searchBy(String text) {
+//        Product[] resultFind = new Product[0];
+//        for (Product product : repository.findAll()) {
+//            if (matches(product, text)) {
+//                Product[] array = new Product[resultFind.length + 1];
+//                System.arraycopy(resultFind, 0, array, 0, resultFind.length);
+//                array[array.length - 1] = product;
+//                resultFind = array;
+//            }
+//        }
+//        return resultFind;
+//    }
+
 }
