@@ -63,4 +63,11 @@ public class Product {
                 ", price=" + price +
                 '}';
     }
+//  проверка является ли продукт книгой или смартфоном по названию
+//  если true то
+    public boolean matches(String search) {
+        return this.getName().equalsIgnoreCase(search);
+    }
+
+
 }

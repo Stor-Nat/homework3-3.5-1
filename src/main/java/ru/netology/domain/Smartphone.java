@@ -42,4 +42,9 @@ public class Smartphone extends Product {
         return "Smartphone{" + "name+'" +
                 "manufacturer='" + manufacturer + '}';
     }
+
+    @Override
+    public boolean matches(String search) {
+        return super.matches(search) || getManufacturer().equalsIgnoreCase(search);
+    }
 }

@@ -40,6 +40,24 @@ public class Book extends Product {
   @Override
   public String toString() {
     return "Book{" + "name='" +
-        "author='" + author + '}';
+            "author='" + author + '}';
   }
+
+  @Override
+  public boolean matches(String search) {
+    if (super.matches(search)) {
+      return false;
+    }
+    if (getAuthor().equalsIgnoreCase(search)) {
+      return true;
+    }
+    return false;
+  }
+
+//   или 2 вариант равнозначный
+//  @Override
+//  public boolean matches(String search) {
+//  return super.matches(search) || getAuthor().equalsIgnoreCase(search);
+//  }
+
 }
