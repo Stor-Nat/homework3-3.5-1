@@ -12,6 +12,7 @@ import ru.netology.domain.Smartphone;
 import ru.netology.repository.ProductRepository;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class ProductManagerTest {
@@ -23,12 +24,18 @@ public class ProductManagerTest {
     private Product second = new Product (2, "LG", 10);
     private Product third = new Product(3,"third", 1);
 
-    @BeforeEach
-    public void setUp() {
-        manager.add(first);
-        manager.add(second);
-        manager.add(third);
-    }
+//    @BeforeEach
+//    public void setUp() {
+//        manager.add(first);
+//        manager.add(second);
+//        manager.add(third);
+//    }
+
+    //preconditions. Могут быть вынесены из метода на уровень класса
+    Book book = new Book(1, "book1", 50, "Author");
+    Product productLG = new Product (2, "LG", 10);
+    Product product3 = new Product(3,"third", 1);
+    Product[] products = new Product[]{book, productLG, product3};
 
 
     @Test
@@ -97,16 +104,14 @@ public class ProductManagerTest {
 
     @Test
     public void shouldReturnFindBook() {
-        repository.findAll();
-
-        manager.matches(first, "book1");
-
-        manager.searchBy("book1");
-        String nameToFind = "book1";
-
-//        manager.matches(new Book(4, "book4", 100, "Ivanov"), "book4");
-        Product[] expected = new Product[]{};
-        Product[] actual = manager.searchBy(nameToFind);
+        //Мокируем repository.findAll(), чтобы когда внутри метода manager.searchBy("book1") будет вызван
+        //repository.findAll() он не выполнялся, а просто нам вернулся только что созданный массив products
+        when(repository.findAll()).thenReturn(products);
+        //Создаём ожидаемый результат
+        Product[] expected = new Product[]{book};
+        //вызываем тестовый метод
+        Product[] actual = manager.searchBy("book1");
+        //проверка
         assertArrayEquals(expected, actual);
     }
 }
