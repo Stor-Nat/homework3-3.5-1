@@ -28,8 +28,8 @@ class SmartphoneTest {
 
     @Test
     public void shouldNotFindSmartphoneManufacturer() {
-        boolean isMatch = product.matches("LG Inc");
-        assertFalse(isMatch);
+        boolean actual = product.matches("LG Inc");
+        assertFalse(actual);
     }
 
 }

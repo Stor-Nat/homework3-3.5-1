@@ -43,21 +43,10 @@ public class Book extends Product {
             "author='" + author + '}';
   }
 
+
   @Override
   public boolean matches(String search) {
-    if (super.matches(search)) {
-      return false;
-    }
-    if (getAuthor().equalsIgnoreCase(search)) {
-      return true;
-    }
-    return false;
+  return super.matches(search) || getAuthor().equalsIgnoreCase(search);
   }
-
-//   или 2 вариант равнозначный
-//  @Override
-//  public boolean matches(String search) {
-//  return super.matches(search) || getAuthor().equalsIgnoreCase(search);
-//  }
 
 }

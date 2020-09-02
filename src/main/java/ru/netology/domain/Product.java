@@ -64,7 +64,7 @@ public class Product {
                 '}';
     }
 //  проверка является ли продукт книгой или смартфоном по названию
-//  если true то
+//  если false то возвращается и в book или smart и проверяется вторая половина условия
     public boolean matches(String search) {
         return this.getName().equalsIgnoreCase(search);
     }

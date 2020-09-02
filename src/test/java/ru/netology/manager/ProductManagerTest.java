@@ -14,88 +14,74 @@ import ru.netology.repository.ProductRepository;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
-@ExtendWith(MockitoExtension.class)
 public class ProductManagerTest {
-    @Mock
-    private ProductRepository repository;
-    @InjectMocks
-    private ProductManager manager;
-    private Product first = new Product(1, "book1", 100);
-    private Product second = new Product (2, "LG", 10);
-    private Product third = new Product(3,"third", 1);
 
-//    @BeforeEach
-//    public void setUp() {
-//        manager.add(first);
-//        manager.add(second);
-//        manager.add(third);
-//    }
+    private ProductRepository repository = new ProductRepository();
 
-    //preconditions. Могут быть вынесены из метода на уровень класса
-    Book book = new Book(1, "book1", 50, "Author");
-    Product productLG = new Product (2, "LG", 10);
-    Product product3 = new Product(3,"third", 1);
-    Product[] products = new Product[]{book, productLG, product3};
+    private ProductManager manager = new ProductManager(repository);
 
+    private Product first = new Book(1, "book1", 100, "Ivanov");
+    private Product second = new Smartphone (2, "LG", 10, "LG Electronics Inc");
+    private Product third = new Book(3,"third", 1, "Popov");
+    private Product fourth = new Book(4, "book4", 50, "Petrov");
+    private Product fifth= new Smartphone (5, "Samsung", 300, "Samsung Corporation");
+    private Product sixth = new Book(6,"sixth", 20, "Popov");
 
-    @Test
-    public void shouldFindBookName() {
-        boolean isMatch = manager.matches(new Book(4, "book4", 100, "Ivanov"),"book4");
-        assertTrue(isMatch);
+    @BeforeEach
+    public void setUp() {
+        manager.add(first);
+        manager.add(second);
+        manager.add(third);
+        manager.add(fourth);
+        manager.add(fifth);
+        manager.add(sixth);
     }
 
-    @Test
-    public void shouldNotFindBookName() {
-        boolean isMatch = manager.matches(new Book(4, "book4", 100, "Ivanov"),"book5");
-        assertFalse(isMatch);
-    }
 
     @Test
-    public void shouldFindBookAuthor() {
-        boolean isMatch = manager.matches(new Book(4, "book4", 100, "Ivanov"),"Ivanov");
-        assertTrue(isMatch);
-    }
-
-    @Test
-    public void shouldNotFindBookAuthor() {
-        boolean isMatch = manager.matches(new Book(4, "book4", 100, "Ivanov"),"Petrov");
-        assertFalse(isMatch);
-    }
-
-    @Test
-    public void shouldFindSmartphoneName() {
-        boolean isMatch = manager.matches(new Smartphone(2, "LG", 1000, "LG Electronics Inc"), "LG");
-        assertTrue(isMatch);
-    }
-
-    @Test
-    public void shouldNotFindSmartphoneName() {
-        boolean isMatch = manager.matches(new Smartphone(2, "LG", 1000, "LG Electronics Inc"), "Fly");
-        assertFalse(isMatch);
-    }
-
-    @Test
-    public void shouldFindSmartphoneManufacturer() {
-        boolean isMatch = manager.matches(new Smartphone(2, "LG", 1000, "LG Electronics Inc"), "LG Electronics Inc");
-        assertTrue(isMatch);
-    }
-
-    @Test
-    public void shouldNotFindSmartphoneManufacturer() {
-        boolean isMatch = manager.matches(new Smartphone(2, "LG", 1000, "LG Electronics Inc"), "LG Inc");
-        assertFalse(isMatch);
-    }
-
-    @Test
-    public void shouldReturnFindBook() {
-        //Мокируем repository.findAll(), чтобы когда внутри метода manager.searchBy("book1") будет вызван
-        //repository.findAll() он не выполнялся, а просто нам вернулся только что созданный массив products
-        when(repository.findAll()).thenReturn(products);
-        //Создаём ожидаемый результат
-        Product[] expected = new Product[]{book};
-        //вызываем тестовый метод
+    public void shouldSearchByBookName() {
+        Product[] expected = {new Book(1, "book1", 100, "Ivanov")} ;
         Product[] actual = manager.searchBy("book1");
-        //проверка
+        assertArrayEquals(expected, actual);
+    }
+
+
+    @Test
+    public void shouldSearchByBookAuthor() {
+        Product[] expected = {new Book(4, "book4", 50, "Petrov")};
+        Product[] actual = manager.searchBy("Petrov");
+        assertArrayEquals(expected, actual);
+    }
+
+
+    @Test
+    public void shouldSearchBySmartphoneName() {
+        Product[] expected = {new Smartphone(2, "LG", 10, "LG Electronics Inc")};
+        Product[] actual = manager.searchBy("LG");
+        assertArrayEquals(expected, actual);
+    }
+
+
+    @Test
+    public void shouldSearchBySmartphoneManufacturer() {
+        Product[] expected = {new Smartphone(5, "Samsung", 300, "Samsung Corporation")};
+        Product[] actual = manager.searchBy("Samsung Corporation");
+        assertArrayEquals(expected, actual);
+    }
+
+
+    @Test
+    public void shouldSearchByNoData() {
+        Product[] expected = {};
+        Product[] actual = manager.searchBy("Lenin");
+        assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldSearchByMoreOneData() {
+        Product[] expected = {new Book(3,"third", 1, "Popov"),
+                              new Book(6,"sixth", 20, "Popov")};
+        Product[] actual = manager.searchBy("Popov");
         assertArrayEquals(expected, actual);
     }
 }
